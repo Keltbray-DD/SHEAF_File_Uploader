@@ -10,8 +10,8 @@ const uploadfolders = [
     {folderName:"ASD-AS_Design_Engineering - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.C31GxRkwTU2_NdCvsRCKLA"}, // 0D.SUB-CONTRACTORs - ASD-AS_Design_Engineering - WIP
     {folderName:"GPS-Grosvenor_Power - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.5luQu6DKSzG_Tf9CICXNXw"}, // 0D.SUB-CONTRACTORs - GPS-Grosvenor_Power - WIP
     {folderName:"LEC-London_Energy_Consultants - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.pF5JbQwQRuCwoPYzMFnBbg"}, // 0D.SUB-CONTRACTORs - LEC-London_Energy_Consultants - WIP
-    {folderName:"KELTBRAY - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.lU0G_PjYQCuPnOR_9DnsVA"}, // 0D.SUB-CONTRACTORs - MJT-MJT_Earthing - WIP
-    {folderName:"KELTBRAY - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.tcYHcSUGR-eZyS9zfZ103Q"}, // 0D.SUB-CONTRACTORs - PGE-Pacific_Green_Energy_Parks_(Client)
+    {folderName:"MJT-MJT_Earthing - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.lU0G_PjYQCuPnOR_9DnsVA"}, // 0D.SUB-CONTRACTORs - MJT-MJT_Earthing - WIP
+    {folderName:"PGE-Pacific_Green_Energy_Parks_(Client) - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.tcYHcSUGR-eZyS9zfZ103Q"}, // 0D.SUB-CONTRACTORs - PGE-Pacific_Green_Energy_Parks_(Client)
     //{folderName:"SHARED",folderID:"urn:adsk.wipemea:fs.folder:co.mRskcAmVS420xLXVgxF8ZA"}
 ]
 
