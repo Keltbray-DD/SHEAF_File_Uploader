@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         getCustomDetailsData()
 
         hideLoadingScreen();
- 
+
     }
     gatherArrays();
 })
@@ -67,14 +67,14 @@ function generateDocName(){
         const nextNumber = maxNumber + 1;
 
         // Pad the next number with zeros and set the fixed length to 6
-        const paddedNextNumber = String(nextNumber).padStart(6, '0');
+        const paddedNextNumber = String(nextNumber).padStart(4, '0');
 
         console.log('Next number with padded zeros and fixed length 6:', paddedNextNumber);
 
         newNumber = paddedNextNumber
     } else {
         console.log(`No partial match '${varDocNumber_noNum}' found in the array.`);
-        newNumber = "000001"
+        newNumber = "0001"
     }
 
     const varDocNumber_Full = varDocNumber_noNum+"-"+newNumber
@@ -513,5 +513,62 @@ async function getNamingStandardforproject(access_token,ns_id,project_id){
     fileExtension = file.name.split('.').pop();
     // Add 'uploaded' class to indicate file upload
     document.getElementById('drop-area').classList.add('uploaded');
-    
+
     }
+
+// Function to fetch and parse CSV data with specified columns and remove headers
+async function loadCSVWithColumns(url, codeColumnIndex, titleColumnIndex) {
+    const response = await fetch(url);
+    const data = await response.text();
+    const rows = data.split('\n');
+    const result = [];
+
+    // Start iterating from the second row to skip headers
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].trim(); // Trim the row to handle potential leading/trailing whitespace
+        if (row) { // Check if the row is not empty
+            const columns = row.split(',');
+            const code = columns[codeColumnIndex];
+            let title = columns[titleColumnIndex] || ''; // Use an empty string if the title column is undefined
+            title = title.trim().replace(/\r$/, ''); // Remove '\r' from the end of the title
+            result.push({ code, title });
+        }
+    }
+
+    return result;
+}
+
+// Usage
+const csvUrl = '../assets/uniclassClassifications.csv';
+const codeColumnIndex = 0; // Assuming code is in the first column (0-indexed)
+const titleColumnIndex = 1; // Assuming title is in the second column (0-indexed)
+
+// Function to populate dropdown with data
+function populateDropdown(data) {
+    const dropdown = document.getElementById('input_Classification');
+
+    // Clear existing options
+    dropdown.innerHTML = '';
+
+    // Add a default option
+    const defaultOption = document.createElement('option');
+    defaultOption.text = 'Select a classification';
+    dropdown.add(defaultOption);
+
+    // Add options for each item in the data array
+    data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.code;
+        option.text = item.code+" - "+item.title;
+        dropdown.add(option);
+    });
+}
+
+// Usage
+loadCSVWithColumns(csvUrl, codeColumnIndex, titleColumnIndex)
+    .then(data => {
+        populateDropdown(data);
+    })
+    .catch(error => {
+        console.error('Error loading CSV:', error);
+    });
