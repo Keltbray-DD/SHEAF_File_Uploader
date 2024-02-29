@@ -103,6 +103,7 @@ function runUpload(){
     const input_RevisionsCode = document.getElementById('input_RevisionsCode').value;
     const input_RevisionDescription = document.getElementById('input_RevisionDescription').value;
     const input_Status = document.getElementById('input_Status').value;
+    const input_State = document.getElementById('input_State').value;
     const input_file_template = document.getElementById('input_file_template').value;
     const input_file_origin = document.getElementById('input_file_origin').value;
     const fileInput = document.getElementById('fileInput');
@@ -147,6 +148,11 @@ function runUpload(){
     if (!input_Status.trim()) {
         // Alert the user if the username field is empty
         alert('Please select a Status');
+        return; // Exit the function
+    }
+    if (!input_State.trim()) {
+        // Alert the user if the username field is empty
+        alert('Please select a State');
         return; // Exit the function
     }
     if (!input_file_origin.trim()) {
