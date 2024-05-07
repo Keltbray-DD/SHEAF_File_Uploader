@@ -217,13 +217,13 @@ async function getCustomDetailsData(){
     customAttributes = await getItemDetails(AccessToken_DataRead)
     console.log("Custom Attributes:",customAttributes)
 
-    titlelineID = await findObjectByName("Title Line 1",customAttributes)
+    titlelineID = await findObjectByName("Title Line 1*",customAttributes)
     revisionCodeID = await findObjectByName("Revision",customAttributes)
-    revisionDescID = await findObjectByName("Revision Description",customAttributes)
-    statusCodeID = await findObjectByName("Status",customAttributes)
-    StatusCodeDescriptionID = await findObjectByName("Status Code Description",customAttributes)
+    revisionDescID = await findObjectByName("Revision Description*",customAttributes)
+    statusCodeID = await findObjectByName("Status*",customAttributes)
+    StatusCodeDescriptionID = await findObjectByName("Status Code Description*",customAttributes)
     ClassificationID = await findObjectByName("Classification",customAttributes)
-    FileDescriptionID = await findObjectByName("File Description",customAttributes)
+    FileDescriptionID = await findObjectByName("File Description*",customAttributes)
     StateID = await findObjectByName("State",customAttributes)
 
     console.log(titlelineID)
