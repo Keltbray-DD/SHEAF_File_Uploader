@@ -1,174 +1,84 @@
-populateStatusDropdown()
-populateFolderDropdown()
 
-
-async function updateRevisionTextInput() {
-    const dropdown = document.getElementById('input_folder');
-    const revisionInput = document.getElementById('input_RevisionsCode');
-    const selectedValue = dropdown.value;
-    //console.log(selectedValue)
-
-    // Check if a state is selected
-    if (selectedValue) {
-        // Get the description of the selected state
-        const folder = uploadfolders.find(obj => obj.folderID === selectedValue);
-
-        if(folder.folderName === "SHARED"){
-            document.getElementById('input_RevisionsCode').value = "P01"
-            uploadFolderID = selectedValue.folderID
-        }else {
-            document.getElementById('input_RevisionsCode').value = "P01.01"
-            uploadFolderID = selectedValue.folderID
-        }
-        // Update the text input with the selected description
-        ;
-    }
-    }
-
-async function updateStatusTextInput() {
-    const dropdown = document.getElementById('input_Status');
-    const selectedValue = dropdown.value;
-
-    // Check if a state is selected
-    if (selectedValue) {
-        // Get the description of the selected state
-        const description = StatesList.find(obj => obj.code === selectedValue);
-
-        // Update the text input with the selected description
-        document.getElementById('input_StatusDesc').value = description.description;
-    } else {
-        // If no state is selected, clear the text input
-        document.getElementById('input_StatusDesc').value = '';
-    }
-    }
-
-function populateFolderDropdown() {
-    document.addEventListener('DOMContentLoaded', function() {
-    const dropdown = document.getElementById('input_folder');
-    // Check if dropdown element exists
-    if (dropdown) {
-        // Clear existing options
-        dropdown.innerHTML = '';
-
-        // Add blank option
-        const blankOption = document.createElement('option');
-        blankOption.value = '';
-        blankOption.textContent = 'Select a folder...';
-        dropdown.appendChild(blankOption);
-
-        // Add states from iso19650States array
-        uploadfolders.forEach(folder => {
-            const option = document.createElement('option');
-            option.value = folder.folderID;
-            option.textContent = folder.folderName;
-            dropdown.appendChild(option);
-        });
-    } else {
-        console.error('Dropdown element not found.');
-    }});
-    }
-
-function populateStatusDropdown() {
-    document.addEventListener('DOMContentLoaded', function() {
-    const dropdown = document.getElementById('input_Status');
-    // Check if dropdown element exists
-    if (dropdown) {
-        // Clear existing options
-        dropdown.innerHTML = '';
-
-        // Add blank option
-        const blankOption = document.createElement('option');
-        blankOption.value = '';
-        blankOption.textContent = 'Select a state...';
-        dropdown.appendChild(blankOption);
-
-        // Add states from iso19650States array
-        StatesList.forEach(state => {
-            const option = document.createElement('option');
-            option.value = state.code;
-            option.textContent = state.code;
-            dropdown.appendChild(option);
-        });
-    } else {
-        console.error('Dropdown element not found.');
-    }});
-}
 
 function runUpload(){
       // Get the value of the username and password fields
-    const DocNumber = document.getElementById('DocNumber').value;
-    const input_folder = document.getElementById('input_folder').value;
-    const input_title = document.getElementById('input_title').value;
-    const input_Description = document.getElementById('input_Description').value;
-    const input_RevisionsCode = document.getElementById('input_RevisionsCode').value;
-    const input_RevisionDescription = document.getElementById('input_RevisionDescription').value;
-    const input_Status = document.getElementById('input_Status').value;
-    const input_State = document.getElementById('input_State').value;
-    const input_file_template = document.getElementById('input_file_template').value;
-    const input_file_origin = document.getElementById('input_file_origin').value;
-    const fileInput = document.getElementById('fileInput');
-
-    // Check if the username field is empty
-    if (!DocNumber.trim()) {
-        // Alert the user if the username field is empty
-        alert('Please generate a document number');
-        return; // Exit the function
-    }
-    // Check if the password field is empty
-    if (!input_folder.trim()) {
-        // Alert the user if the password field is empty
-        alert('Please select a target folder');
-        return; // Exit the function
-    }
-    // Check if the username field is empty
-    if (!input_title.trim()) {
-        // Alert the user if the username field is empty
-        alert('Please enter a Title');
-        return; // Exit the function
-    }
-    // Check if the password field is empty
-    if (!input_Description.trim()) {
-        // Alert the user if the password field is empty
-        alert('Please enter a description');
-        return; // Exit the function
-    }
-            // Check if the username field is empty
-    if (!input_RevisionsCode.trim()) {
-        // Alert the user if the username field is empty
-        alert('Please enter a revision code');
-        return; // Exit the function
-    }
-    // Check if the password field is empty
-    if (!input_RevisionDescription.trim()) {
-        // Alert the user if the password field is empty
-        alert('Please enter a revision description');
-        return; // Exit the function
-    }
-    // Check if the username field is empty
-    if (!input_Status.trim()) {
-        // Alert the user if the username field is empty
-        alert('Please select a Status');
-        return; // Exit the function
-    }
-    if (!input_State.trim()) {
-        // Alert the user if the username field is empty
-        alert('Please select a State');
-        return; // Exit the function
-    }
-    if (!input_file_origin.trim()) {
-        // Alert the user if the username field is empty
-        alert('Please select an upload origin');
-        return; // Exit the function
-    }
+      const DocNumber = document.getElementById('DocNumber').value;
+      const input_folder = document.getElementById('input_folder').value;
+      const input_title = document.getElementById('input_title').value;
+      const input_Description = document.getElementById('input_Description').value;
+      const input_RevisionsCode = document.getElementById('input_RevisionsCode').value;
+      const input_RevisionDescription = document.getElementById('input_RevisionDescription').value;
+      const input_Status = document.getElementById('input_Status').value;
+      const input_file_template = document.getElementById('input_file_template').value;
+      const input_file_origin = document.getElementById('input_file_origin').value;
+      const fileInput = document.getElementById('fileInput');
+  
+      // Check if the username field is empty
+      if (!DocNumber.trim()) {
+          // Alert the user if the username field is empty
+          alert('Please generate a document number');
+          return; // Exit the function
+      }
+      // Check if the password field is empty
+      if (!input_folder.trim()) {
+          // Alert the user if the password field is empty
+          alert('Please select a target folder');
+          return; // Exit the function
+      }
+      // Check if the username field is empty
+      if (!input_title.trim()) {
+          // Alert the user if the username field is empty
+          alert('Please enter a Title');
+          return; // Exit the function
+      }
+      // Check if the password field is empty
+      if (!input_Description.trim()) {
+          // Alert the user if the password field is empty
+          alert('Please enter a description');
+          return; // Exit the function
+      }
+              // Check if the username field is empty
+      if (!input_RevisionsCode.trim()) {
+          // Alert the user if the username field is empty
+          alert('Please enter a revision code');
+          return; // Exit the function
+      }
+      // Check if the password field is empty
+      if (!input_RevisionDescription.trim()) {
+          // Alert the user if the password field is empty
+          alert('Please enter a revision description');
+          return; // Exit the function
+      }
+      // Check if the username field is empty
+      if (!input_Status.trim()) {
+          // Alert the user if the username field is empty
+          alert('Please select a Status');
+          return; // Exit the function
+      }
+      if (!input_file_origin.trim()) {
+          // Alert the user if the username field is empty
+          alert('Please select an upload origin');
+          return; // Exit the function
+      }
     // Check if the password field is empty
     if(originSelectionDropdown.value === "Template Folder" && !input_file_template.trim()){
 
         alert('Please select a Template');
         return; // Exit the function
     }
-    if(originSelectionDropdown.value === "User PC" ){
-        const fileCheck = fileInput.files[0];
-        if(fileCheck){
+    if(originSelectionDropdown.value === "Your computer" ){
+
+        if(droppedfile){
+            console.log(droppedfile)
+            uploadfile = droppedfile
+
+        }else{
+            console.log(fileInput.files[0])
+            uploadfile = fileInput.files[0];
+        }
+
+        console.log(uploadfile)
+        if(uploadfile){
         }else{
             alert('Please upload a file');
             return; // Exit the function
@@ -191,11 +101,15 @@ function runUpload(){
         const selectedOptionText = selectedOption.innerText;
         filename = sessionStorage.getItem('generatedName')+"."+getFileExtension(selectedOptionText)
 
-    }else if(originSelectionDropdown.value === "User PC"){
+    }else if(originSelectionDropdown.value === "Your computer"){
 
-
-        var file = fileInput.files[0];
-        file = renameFile(fileInput)
+        let file
+        if(droppedfile){
+            file = renameFileDrop(uploadfile)
+        }else{
+            file = renameFile(uploadfile)
+        }
+        console.log(file)
         filename = file.name
     }
     console.log(filename)
@@ -221,19 +135,15 @@ async function getCustomDetailsData(){
     revisionCodeID = await findObjectByName("Revision",customAttributes)
     revisionDescID = await findObjectByName("Revision Description*",customAttributes)
     statusCodeID = await findObjectByName("Status*",customAttributes)
-    StatusCodeDescriptionID = await findObjectByName("Status Code Description*",customAttributes)
-    ClassificationID = await findObjectByName("Classification",customAttributes)
     FileDescriptionID = await findObjectByName("File Description*",customAttributes)
-    StateID = await findObjectByName("State",customAttributes)
+    ClassificationID = await findObjectByName("Classification",customAttributes)
 
     console.log(titlelineID)
     console.log(revisionCodeID)
     console.log(revisionDescID)
     console.log(statusCodeID)
-    console.log(StatusCodeDescriptionID)
-    console.log(ClassificationID)
     console.log(FileDescriptionID)
-    console.log(StateID)
+    console.log(ClassificationID)
 }
 
 async function getAccessToken(scopeInput){
@@ -347,39 +257,15 @@ async function uploadtoSignURL(uploadURL) {
                 //'Authorization': 'Bearer ' + AccessToken,
                 "Content-Type": 'application/octet-stream'
             };
-            let fileData
-            if(originSelectionDropdown.value === "User PC"){
-            const fileInput = document.getElementById('fileInput');
-            var file = fileInput.files[0];
-            file = renameFile(fileInput)
-
-            // Create a FormData object and append the binary data
+            if(originSelectionDropdown.value === "Your computer"){
+                file = uploadfile
 
             }else if(originSelectionDropdown.value === "Template Folder"){
                 file = fileTemplate
             }
 
-
             const apiUrl = uploadURL;
-            const reader = new FileReader(); // Create a new FileReader object
 
-            reader.onload = function(event) {
-                const fileContent = file; // Get the file content
-                console.log('File content:', fileContent);
-                // Now you can use 'fileContent' in your HTTP request or other operations
-                console.log("filename",filename)
-
-
-
-                console.log(apiUrl, requestOptions)
-                return fileContent
-            };
-
-            reader.onerror = function(event) {
-              console.error('File reading error:', event.target.error);
-            };
-            reader.readAsDataURL(file);
-             // Read the file as data URL (base64 encoded)
             const requestOptions = {
                 method: 'PUT',
                 headers: headers,
@@ -638,11 +524,12 @@ async function getItemDetails(AccessToken){
     }
 
 async function postCustomItemDetails(AccessToken){
-    if($("#input_Classification").val()==="Select a classification"){
+    if($("#input_Classification").val()===""){
         classValue = ""
     }else{
         classValue = $("#input_Classification").val()
     }
+    //console.log("SD",$("#input_StatusDesc").val())
     const bodyData = [
         {
             // Title Line 1
@@ -666,11 +553,6 @@ async function postCustomItemDetails(AccessToken){
         },
         {
              // Status Description
-          "id": StatusCodeDescriptionID.id,
-          "value": $("#input_StatusDesc").val()
-        },
-        {
-             // Status Description
           "id": ClassificationID.id,
           "value": classValue
         },
@@ -678,14 +560,9 @@ async function postCustomItemDetails(AccessToken){
              // Status Description
           "id": FileDescriptionID.id,
           "value": $("#input_Description").val()
-        },
-        {
-             // Status Description
-          "id": StateID.id,
-          "value": $("#input_State").val()
         }
       ];
-      
+
     const headers = {
         'Authorization':"Bearer "+AccessToken,
         'Content-Type': 'application/json',
@@ -877,11 +754,24 @@ function renameFile(input) {
         var file = input.files[0];
         var newName = $("#DocNumber").val()+"."+fileExtension; // New filename
         var newFile = new File([file], newName, { type: file.type });
-
+        console.log(newFile)
         // Replace the original file with the renamed file in the file input
-        input.files[0] = newFile;
+        //input.files[0] = newFile;
         return newFile
     }
+}
+
+function renameFileDrop(input) {
+
+        var file = input.file;
+        var newName = $("#DocNumber").val()+"."+fileExtension; // New filename
+        var newFile = new File([file], newName);
+
+        // Replace the original file with the renamed file in the file input
+        //input.files = newFile;
+        console.log(newFile)
+        return newFile
+    
 }
 
 function getFileExtension(filename) {

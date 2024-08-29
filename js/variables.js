@@ -1,19 +1,11 @@
 const projectID = "7c7ca0c5-bfc3-4ef1-9396-c72c6270f457";
-const namingstandardID ="142f8789-4126-5e87-b60e-e1a565ccdb67"
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
 const bucketKey = "wip.dm.emea.2"
-const defaultFolder = "urn:adsk.wipemea:fs.folder:co.zxGPBWfVTxqvS6KYiTFHbQ" // KELTBRAY - WIP Folder
-const templateFolderID = "urn:adsk.wipemea:fs.folder:co.kWYZx82fTbmShc0th2Osew" // APPROVED_TEMPLATES Folder
+const toolURL ="https://keltbray-dd.github.io/SHEAF_File_Uploader/"
 
-const uploadfolders = [
-    {folderName:"KELTBRAY - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.zxGPBWfVTxqvS6KYiTFHbQ"},
-    {folderName:"ASD-AS_Design_Engineering - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.C31GxRkwTU2_NdCvsRCKLA"}, // 0D.SUB-CONTRACTORs - ASD-AS_Design_Engineering - WIP
-    {folderName:"GPS-Grosvenor_Power - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.5luQu6DKSzG_Tf9CICXNXw"}, // 0D.SUB-CONTRACTORs - GPS-Grosvenor_Power - WIP
-    {folderName:"LEC-London_Energy_Consultants - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.pF5JbQwQRuCwoPYzMFnBbg"}, // 0D.SUB-CONTRACTORs - LEC-London_Energy_Consultants - WIP
-    {folderName:"MJT-MJT_Earthing - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.lU0G_PjYQCuPnOR_9DnsVA"}, // 0D.SUB-CONTRACTORs - MJT-MJT_Earthing - WIP
-    {folderName:"PGE-Pacific_Green_Energy_Parks_(Client) - WIP",folderID:"urn:adsk.wipemea:fs.folder:co.tcYHcSUGR-eZyS9zfZ103Q"}, // 0D.SUB-CONTRACTORs - PGE-Pacific_Green_Energy_Parks_(Client)
-    //{folderName:"SHARED",folderID:"urn:adsk.wipemea:fs.folder:co.mRskcAmVS420xLXVgxF8ZA"}
-]
+let ProjectFiles = []
+let projectFolders
+let deliverableFolders =[]
 
 const StatesList = [
     //{ code: 'A4', description: 'Accepted Design',folder:"PUBLISHED" },
@@ -29,19 +21,6 @@ const StatesList = [
     //{ code: 'S7', description: 'Suitable AIM Authorisation',folder:"NA" }
 ];
 
-const searchFolders =[
-    "urn:adsk.wipemea:fs.folder:co.zxGPBWfVTxqvS6KYiTFHbQ", // 0C.KELTBRAY - WIP
-    "urn:adsk.wipemea:fs.folder:co.C31GxRkwTU2_NdCvsRCKLA", // 0D.SUB-CONTRACTORs - ASD-AS_Design_Engineering - WIP
-    "urn:adsk.wipemea:fs.folder:co.5luQu6DKSzG_Tf9CICXNXw", // 0D.SUB-CONTRACTORs - GPS-Grosvenor_Power - WIP
-    "urn:adsk.wipemea:fs.folder:co.pF5JbQwQRuCwoPYzMFnBbg", // 0D.SUB-CONTRACTORs - LEC-London_Energy_Consultants - WIP
-    "urn:adsk.wipemea:fs.folder:co.lU0G_PjYQCuPnOR_9DnsVA", // 0D.SUB-CONTRACTORs - MJT-MJT_Earthing - WIP
-    "urn:adsk.wipemea:fs.folder:co.tcYHcSUGR-eZyS9zfZ103Q", // 0D.SUB-CONTRACTORs - PGE-Pacific_Green_Energy_Parks_(Client) - WIP
-    "urn:adsk.wipemea:fs.folder:co.mRskcAmVS420xLXVgxF8ZA", // 0E.SHARED
-    "urn:adsk.wipemea:fs.folder:co.7WXxzz59TIeOn-7A3G9LZw", // 0F.CLIENT_SHARED
-    "urn:adsk.wipemea:fs.folder:co.eAYof_jAT4CEEWexlbl35w", // 0G.PUBLISHED
-    "urn:adsk.wipemea:fs.folder:co.zKkBY6rfQGadO5owcDYKIQ", // 0H.ARCHIVED
-]
-
 const tooltips = [
     { value: "Project Pin", tooltip: "The ‘project pin’ identifier code indicates that a document is related to a specific project to control its placement and management within the project folder structure where more than one project identification number may be in use" },
     { value: "Originator", tooltip: "The ‘originator’ (company) identifier code serves to identify which company has created a document. They are ultimately accountable for the document and liable for its content through the lifecycle of the project" },
@@ -55,7 +34,6 @@ var AccessToken_DataCreate
 var AccessToken_DataRead
 var AccessToken_BucketCreate
 
-let namingstandard;
 let filelist =[];
 let arrayprojectPin=[];
 let arrayOriginator=[];
@@ -63,12 +41,15 @@ let arrayfunction=[];
 let arraySpatial=[];
 let arrayForm=[];
 let arrayDiscipline=[];
+let customAttributes =[]
+let templatesList =[];
+
 let objectKeyShort
 let objectKeyLong
 let fileData
 let filename
-let customAttributes =[]
-let templates = []
+let droppedfile
+let uploadfile
 
 let titlelineID
 let revisionCodeID
@@ -78,13 +59,13 @@ let ClassificationID
 let StatusCodeDescriptionID
 let FileDescriptionID
 let StateID
+let namingstandardID
 
+let namingstandard;
 let fileURN
 let fileExtension
 let progressCount = 0
 let uploadbutton
-let templatesList =[];
-let rawtemplatesList =[];
 let originSelectionDropdown
 let templateDropdwon
 let copyURN
@@ -100,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
     droparea = document.getElementById('drop-area')
     templateDropdwon = document.getElementById('templatesDropdown');
     reloadButton = document.getElementById('reloadButton');
+    tooltip = document.getElementById('tooltip')
     tooltipQuestion = document.querySelectorAll('.fa-circle-question')
 
     // Add a click event listener to the button
@@ -118,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // You can perform any actions you need here
         if(originSelectionDropdown.value === "Template Folder"){
             templateDropdwon.style.display = 'block'
-        }else if(originSelectionDropdown.value === "User PC"){
+        }else if(originSelectionDropdown.value === "Your computer"){
             droparea.style.display = 'block'
         }
       });
@@ -139,10 +121,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return "Tooltip not found"; // Return a default message if the value is not found
     }
-  
-
 
 });
+function signin(){
+    window.open("https://developer.api.autodesk.com/authentication/v2/authorize?response_type=code&client_id=UMPIoFc8iQoJ2eKS6GsJbCGSmMb4s1PY&redirect_uri="+toolURL+"&scope=data:read&prompt=login&state=12321321&code_challenge=fePr9SDGJIToHximLHTRokkzkfzZksznrDIx9bexsto&code_challenge_method=S256","_self")
+}
+
+window.onload = function() {
+    // Function to parse URL parameters
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Check if 'code' parameter exists in the URL
+    var codeParam = getParameterByName('code');
+    if (codeParam !== null) {
+        // Run your function here, for example:
+        console.log("Code parameter found: " + codeParam);
+        // Call your function here
+        // yourFunctionName(codeParam);
+    }else{
+        signin()
+    }
+}
+
+
+
 
 
 
